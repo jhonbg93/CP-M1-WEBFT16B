@@ -39,6 +39,19 @@ const {
 
 var isAncestor = function(genealogyTree, ancestor, descendant){
   // Tu código aca:
+  if (genealogyTree[ancestor].length <= 0) {
+    return false
+  }
+  for (let i = 0; i < genealogyTree[ancestor].length; i++) {
+    let aux = genealogyTree[ancestor][i];
+    if (aux === descendant) {
+      return true;
+    }
+    if (genealogyTree[aux].length > 0) {
+      return isAncestor(genealogyTree, aux, descendant);
+    }
+  }
+  return false
 
 }
 
@@ -77,7 +90,10 @@ var isAncestor = function(genealogyTree, ancestor, descendant){
 
 function secuenciaHenry(obj, n) {
   // Tu código aca:
-
+  if(n > 0) return null;
+  if(n === 0) return obj.first;
+  if(n === 1) return Object.keys(obj).length;
+  return (secuenciaHenry(obj,n - 1) * secuenciaHenry(obj, n - 2) - secuenciaHenry(obj, n - 2))
 }
 
 // ---------------------
@@ -98,6 +114,18 @@ function secuenciaHenry(obj, n) {
 
 LinkedList.prototype.size = function(){
   // Tu código aca:
+  var contador = 0;
+  if(this.head === null){
+    return 0;
+  }else {
+    var mismo = this.head;
+    while (mismo.next){
+      contador +=1;
+      mismo = mismo.next
+    }
+    return (contador+1);
+  }
+
 
 }
 
@@ -119,6 +147,23 @@ LinkedList.prototype.size = function(){
 
 LinkedList.prototype.switchPos = function(pos1, pos2){
   // Tu código aca:
+  let actual = this.head;
+  let actual2 = this.head;
+  if (pos1 > this.size() || pos2 > this.size() || pos1 < 0 || pos2 < 0) return false;
+  else if (this.head === null) return false;
+  else {
+    for (let index = 0; index < pos1; index++) {
+      actual = actual.next;
+    }
+    let auxValor = actual.value;
+    for (let index = 0; index < pos2; index++) {
+      actual2 = actual2.next;
+    }
+    let auxValor2 = actual2.value;
+    actual.value = auxValor2;
+    actual2.value = auxValor;
+    return true;
+  }
 
 }
 
@@ -135,7 +180,19 @@ LinkedList.prototype.switchPos = function(pos1, pos2){
 // Continuando con el nodo 2 de la lista 2, conectandose con el nodo 2 de la lista 2.
 var mergeLinkedLists = function(linkedListOne, linkedListTwo){
   // Tu código aca:
+  var list =  new LinkedList();
+  var current_1 = linkedListOne.head;
+  var current_2 = linkedListTwo.head;
 
+  while(current_1 != null && current_2 != null){
+    list.add(current_1.value);
+    list.add(current_2.value);
+
+    current_1 = current_1.next;
+    current_2 = current_2.next;
+
+  }
+  return list;
 }
 
 
