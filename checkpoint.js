@@ -264,6 +264,27 @@ var cardGame = function(playerOneCards, playerTwoCards){
 
 BinarySearchTree.prototype.height = function(){
   // Tu código aca:
+  if (!this.value) {
+    return 0;
+  }
+
+  if (this.left === null && this.right === null) {
+    return 1;
+  }
+
+  if (this.left === null) {
+    return 1 + this.right.height();
+  }
+
+  if (this.right === null) {
+    return 1 + this.left.height();
+  }
+
+  var left = this.left.height()
+  var right = this.right.height()
+
+  return 1 + Math.max(left, right)
+
 
 }
 
@@ -286,6 +307,24 @@ BinarySearchTree.prototype.height = function(){
 
 var binarySearch = function (array, target) {
   // Tu código aca:
+  let primero = 0;
+  let ultimo = array.length - 1;
+  let posicion = -1;
+  let encontrado = false;
+  let medio;
+
+  while (encontrado === false && primero <= ultimo) {
+    medio = Math.floor((primero + ultimo) / 2);
+    if (array[medio] == target) {
+      encontrado = true;
+      posicion = medio;
+    } else if (array[medio] > target) {
+      ultimo = medio - 1;
+    } else {
+      primero = medio + 1;
+    }
+  }
+  return posicion;
 
 }
 
@@ -314,8 +353,24 @@ var binarySearch = function (array, target) {
 
 var specialSort = function(array, orderFunction) {
   // Tu código aca:
+  let change = true;
 
-}
+  while (change) {
+    change = false;
+    for (let i = 0; i < array.length - 1; i++) {
+      if(orderFunction(array[i], array[i + 1]) === -1){
+        let res = array[i];
+        array[i] = array[i + 1];
+        array[i + 1] = res;
+        change = true;
+      }
+    }
+  }
+  return array;
+};
+
+
+
 
 // ----- Closures -----
 
@@ -347,6 +402,17 @@ var specialSort = function(array, orderFunction) {
 
 function closureDetect(symptoms, min) {
   // Tu código aca:
+  return function (person) {
+    var sym = 0;
+
+    for (var i = 0; i < symptoms.length; i++) {
+      if (symptoms.includes(person.symptoms[i])) {
+        sym++;
+      }
+    }
+    if (sym >= min) return true;
+    return false;
+  }
 
 }
 
